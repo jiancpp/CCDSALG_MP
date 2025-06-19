@@ -6,4 +6,10 @@
 #include <stdbool.h>
 #include <string.h>
 
-#endif
+typedef char String[256];
+typedef struct  {
+    String data;
+    LinkedListNode *ptr;
+} LinkedListNode;
+
+#endif;
