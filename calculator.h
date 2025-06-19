@@ -12,4 +12,4 @@ typedef struct  {
     LinkedListNode *ptr;
 } LinkedListNode;
 
-#endif;
+#endif
