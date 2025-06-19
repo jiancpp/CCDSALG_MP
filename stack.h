@@ -5,15 +5,14 @@
 
 typedef struct {
     String collection[256];
-    int top;
+    int top; // index of last added element
 } Stack;
 
-Stack*  createStack     (Stack *stack);
 void    clearStack      (Stack *stack);
 bool    isFullStack     (Stack *stack);
 bool    isEmptyStack    (Stack *stack);
 char*   popStack        (Stack *stack);
 void    pushStack       (Stack *stack, char* item);
-char*   topStack        (Stack *stack);
+char*   peekStack       (Stack *stack);
 
 #endif

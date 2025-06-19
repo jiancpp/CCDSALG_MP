@@ -7,12 +7,6 @@
     @param capacity - the maximum size to be allocated to the stack
 */
 
-Stack*
-createStack (Stack *stack)
-{
-    stack->top = -1;
-}
-
 void
 clearStack (Stack *stack)
 {
@@ -42,15 +36,15 @@ popStack (Stack *stack)
     return stack->collection[stack->top + 1];
 }
 
-char*
-topStack (Stack *stack)
-{
-    return stack->collection[stack->top];
-}
-
 void
 pushStack (Stack *stack, char* item)
 {
     (stack->top)++;
     strcpy(stack->collection[stack->top], item);
+}
+
+char*
+peekStack (Stack *stack)
+{
+    return stack->collection[stack->top];
 }
