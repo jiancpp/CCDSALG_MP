@@ -25,13 +25,12 @@ isEmptyQueue (Queue *queue)
     } else return false;
 }
 
-char*
+const char*
 dequeue (Queue *queue)
 {
     int i;
-    String temp;
 
-    strcpy (temp, queue->collection[0]);
+    const char *temp = queue->collection[0];
 
     for (i = 0; i < (queue->tail) - 1; i++)
     {

@@ -8,11 +8,11 @@ typedef struct {
     int top; // index of last added element
 } Stack;
 
-void    clearStack      (Stack *stack);
-bool    isFullStack     (Stack *stack);
-bool    isEmptyStack    (Stack *stack);
-char*   popStack        (Stack *stack);
-void    pushStack       (Stack *stack, char* item);
-char*   peekStack       (Stack *stack);
+void        clearStack      (Stack *stack);
+bool        isFullStack     (Stack *stack);
+bool        isEmptyStack    (Stack *stack);
+const char* popStack        (Stack *stack);
+void        pushStack       (Stack *stack, char* item);
+char*       peekStack       (Stack *stack);
 
 #endif

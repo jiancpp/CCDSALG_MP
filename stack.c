@@ -29,11 +29,13 @@ isEmptyStack (Stack *stack)
     } else return false;
 }
 
-char*
+const char*
 popStack (Stack *stack)
 {
+    const char *temp = stack->collection[stack->top];
     (stack->top)--;
-    return stack->collection[stack->top + 1];
+    
+    return temp;
 }
 
 void
