@@ -7,9 +7,5 @@
 #include <string.h>
 
 typedef char String[256];
-typedef struct  {
-    String data;
-    LinkedListNode *ptr;
-} LinkedListNode;
 
-#endif;
+#endif
