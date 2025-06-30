@@ -40,6 +40,11 @@ isEmptyQueue (Queue *queue)
     } else return false;
 }
 
+/**
+ * This function dequeues (removes) the last element of the queue and returns it.
+ * @param queue the queue to be dequeued
+ * @return dequeued element 
+ */
 const char*
 dequeue (Queue *queue)
 {
@@ -49,6 +54,11 @@ dequeue (Queue *queue)
     return temp;
 }
 
+/**
+ * This function enqueues (inserts) an item to the queue.
+ * @param queue queue to be added on
+ * @param item element to be enqueued to the queue
+ */
 void
 enqueue (Queue *queue, char* item)
 {
