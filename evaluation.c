@@ -21,18 +21,22 @@ tokenizePostfix(String256 postfix, Queue* postfixQueue)
     int cur, operandIdx, operatorIdx;
     String256 operand, operator;
 
+    // Initialize
+    clearQueue(postfixQueue);
     cur = 0;
 
     // Read postfix while cur is a valid character index
-    while (strlen(postfix) > cur)
+    while (postfix[cur] != '\0')
     {
         // Skip whitespaces
-        if (postfix[cur] == ' ')
+        if (postfix[cur] == ' ') {
             cur++;
+            continue;
+        }    
 
         // Set garbage character values to null
         memset(operand, 0, sizeof(operand));
-        memset(operand, 0, sizeof(operator));
+        memset(operator, 0, sizeof(operator));
 
         // Initialize operand and operator string indices
         operandIdx = 0;
@@ -117,10 +121,13 @@ parseToInt(String256 number)
             case '9': 
                 integer = integer + power * 9;
                 break;
+            case '-':
+                integer = 0  - integer;
         }
 
-        // Increase the place value of each digit by 1
-        power *= 10;
+        if (number[i] != '-')
+            // Increase the place value of each digit by 1
+            power *= 10;
     }
 
     return integer;
@@ -188,10 +195,13 @@ solve(int operand1, int operand2, char* operator) {
 bool 
 evaluatePostfix(Queue postfix, int* result) {
     Stack operands;
+
     String256 token, ans;
     int cur, operand1, operand2;
     bool isEvaluated;
-    
+
+    // Initialize
+    clearStack(&operands);
     isEvaluated = true;
     operands.top = 0;
     
