@@ -141,7 +141,7 @@ concatToPostfix(char* postfix, char* op)
 void
 tokenizeInfix(char* infix, Queue* infixQueue, Operator storedOperators[]) {
     int cur = 0, tempCur;
-    char temp[MAX_CAPACITY];
+    String256 temp;
 
     // Read infix until null operator is reached
     while (infix[cur] != '\0') {
@@ -172,12 +172,12 @@ tokenizeInfix(char* infix, Queue* infixQueue, Operator storedOperators[]) {
                      cur += 2;
                      matched_operator = true;
                 }
+            }
 
-                if (!matched_operator) {
-                    temp[0] = infix[cur];
-                    temp[1] = '\0';
-                    cur++;
-                }
+            if (!matched_operator) {
+                temp[0] = infix[cur];
+                temp[1] = '\0';
+                cur++;
             }
             enqueue(infixQueue, temp);
         }
@@ -216,6 +216,22 @@ convertToPostfix (char* infix, Queue* postfixQueue, char* postfix)
             enqueue(postfixQueue, temp);
             concatToPostfix(postfix, temp);
         }
+
+        // Special handling for grouping symbol
+        else if (strcmp(temp, "(") == 0) {
+            pushStack(&operatorStack, temp);
+        } 
+        else if (strcmp(temp, ")") == 0){
+            while (!isEmptyStack(&operatorStack) && strcmp(peekStack(&operatorStack), "(") != 0) {
+                char* operator = popStack(&operatorStack);
+                enqueue(postfixQueue, operator);
+                concatToPostfix(postfix, operator);
+            }
+
+            popStack(&operatorStack); // discard "("
+        }
+
+        // Handling for other operators
         else {
             // Check if operator stack is empty or top element of stack is of lower precedence than temp
             if (isEmptyStack(&operatorStack) || 
@@ -223,8 +239,9 @@ convertToPostfix (char* infix, Queue* postfixQueue, char* postfix)
                 pushStack(&operatorStack, temp);
             }
             else {
-                // Pop operator stack until top element is lower precedence
-                while (!isLowerPrecedence(peekStack(&operatorStack), temp, operators)) {
+                // Pop operator stack until top element is lower precedence and is not a grouping symbol
+                while (strcmp(peekStack(&operatorStack), "(") != 0 && 
+                       !isLowerPrecedence(peekStack(&operatorStack), temp, operators)) {
                     char* operatorTemp = popStack(&operatorStack);
                     enqueue(postfixQueue, operatorTemp);
                     concatToPostfix(postfix, operatorTemp);
@@ -237,7 +254,9 @@ convertToPostfix (char* infix, Queue* postfixQueue, char* postfix)
     // Flush operators in operator stack
     while (!isEmptyStack(&operatorStack)) {
         char* operatorTemp = popStack(&operatorStack);
-        enqueue(postfixQueue, operatorTemp);
-        concatToPostfix(postfix, operatorTemp);
+        if (strcmp(operatorTemp, "(") != 0) {
+            enqueue(postfixQueue, operatorTemp);
+            concatToPostfix(postfix, operatorTemp);
+        }
     }
 }

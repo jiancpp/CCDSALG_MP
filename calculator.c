@@ -2,9 +2,28 @@
 #include <stdbool.h>
 #include <string.h>
 
+#include "calculator.h"
 #include "conversion.h"
 #include "evaluation.h"
+#include "queue.h"
 
 int main() {
-    
+    String256 infix;
+    String256 postfix;
+    int answer;
+    Queue postfixQueue;
+
+    postfixQueue.tail = -1;
+    postfixQueue.head = 0;
+
+    while (scanf("%s", infix) == 1 && strcmp(infix, "ZZZ") != 0) {
+        postfix[0] = '\0';
+
+        convertToPostfix(infix, &postfixQueue, postfix);
+        answer = evaluatePostfix(postfixQueue);
+
+        printf("%s\n", infix);
+        printf("%s\n", postfix);
+        printf("%d\n\n", answer);
+    }
 }
