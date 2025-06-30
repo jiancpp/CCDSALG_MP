@@ -172,7 +172,7 @@ solve(int operand1, int operand2, char* operator) {
         return !operand1;
     } else if (strcmp(operator, "&&") == 0) {
         return operand1 && operand2;
-    } else if (strcmp(operator, "||") == 0)
+    } else
         return operand1 || operand2;
 }
 
