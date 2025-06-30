@@ -1,8 +1,6 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "calculator.h"
-
 #define CAPACITY (256);
 
 typedef struct {
