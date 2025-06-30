@@ -20,6 +20,6 @@ bool        isNumber                (char c);
 bool        isOperand               (char* string);
 void        concatToPostfix         (char* postfix, char* op);
 void        tokenizeInfix           (char* infix, Queue* infixQueue, Operator storedOperators[]);
-void        convertToPostfix        (char* infix, Queue* postfixQueue, char* postfix);
+void        convertToPostfix        (char* infix, char* postfix);
 
 #endif

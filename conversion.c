@@ -185,14 +185,13 @@ tokenizeInfix(char* infix, Queue* infixQueue, Operator storedOperators[]) {
 }
 
 /**
- * converToPostfix() translates an infix expression to a postfix expression. The function
- * updates and returns a postfix queue and string
+ * converToPostfix() translates an infix expression to a postfix expression.
  * 
  * @param infix string containing an infix expression
- * @param postfixQueue queue to store tokenized postfix 
+ * @param postfix string to contain resulting postfix expression 
  */
 void
-convertToPostfix (char* infix, Queue* postfixQueue, char* postfix) 
+convertToPostfix (char* infix, char* postfix) 
 {
     Operator operators[18];
     String256 temp;
@@ -213,7 +212,6 @@ convertToPostfix (char* infix, Queue* postfixQueue, char* postfix)
 
         // Check if temp stores an operand or an operator
         if (isOperand(temp)) {
-            enqueue(postfixQueue, temp);
             concatToPostfix(postfix, temp);
         }
 
@@ -224,7 +222,6 @@ convertToPostfix (char* infix, Queue* postfixQueue, char* postfix)
         else if (strcmp(temp, ")") == 0){
             while (!isEmptyStack(&operatorStack) && strcmp(peekStack(&operatorStack), "(") != 0) {
                 char* operator = popStack(&operatorStack);
-                enqueue(postfixQueue, operator);
                 concatToPostfix(postfix, operator);
             }
 
@@ -243,7 +240,6 @@ convertToPostfix (char* infix, Queue* postfixQueue, char* postfix)
                 while (strcmp(peekStack(&operatorStack), "(") != 0 && 
                        !isLowerPrecedence(peekStack(&operatorStack), temp, operators)) {
                     char* operatorTemp = popStack(&operatorStack);
-                    enqueue(postfixQueue, operatorTemp);
                     concatToPostfix(postfix, operatorTemp);
                 }
                 pushStack(&operatorStack, temp);
@@ -255,7 +251,6 @@ convertToPostfix (char* infix, Queue* postfixQueue, char* postfix)
     while (!isEmptyStack(&operatorStack)) {
         char* operatorTemp = popStack(&operatorStack);
         if (strcmp(operatorTemp, "(") != 0) {
-            enqueue(postfixQueue, operatorTemp);
             concatToPostfix(postfix, operatorTemp);
         }
     }
