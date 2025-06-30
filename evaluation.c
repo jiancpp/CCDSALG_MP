@@ -21,6 +21,8 @@ tokenizePostfix(String256 postfix, Queue* postfixQueue)
     int cur, operandIdx, operatorIdx;
     String256 operand, operator;
 
+    // Initialize
+    clearQueue(postfixQueue);
     cur = 0;
 
     // Read postfix while cur is a valid character index
