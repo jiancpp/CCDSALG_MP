@@ -22,6 +22,8 @@ int main() {
         printf("%s\n", infix);
         printf("%s\n", postfix);
 
+        tokenizePostfix(postfix, &postfixQueue);
+
         if (evaluatePostfix(postfixQueue, &answer))
             printf("%d\n\n", answer);
         else
