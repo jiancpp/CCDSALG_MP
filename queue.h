@@ -1,8 +1,6 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "calculator.h"
-
 typedef struct {
     String256 collection[256];
     int tail; // index of last added element
@@ -16,7 +14,5 @@ bool        isEmptyQueue    (Queue *queue);
 void        enqueue         (Queue *queue, char* item);
 const char* dequeue         (Queue *queue);
 char*       peekQueue       (Queue *queue);
-
-// Declare functions here
 
 #endif
