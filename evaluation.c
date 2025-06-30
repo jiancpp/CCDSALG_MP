@@ -123,6 +123,8 @@ solve(int op1, int op2, char* operator) {
             ans *= op1;
 
         return ans;    
+    } else if (strcmp(operator, "%") == 0) {
+        return op1 % op2;
     } else if (strcmp(operator, ">") == 0) {
         return op1 > op2;
     } else if (strcmp(operator, "<") == 0) {
