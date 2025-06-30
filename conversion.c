@@ -151,6 +151,7 @@ tokenizeInfix(char* infix, Queue* infixQueue, Operator storedOperators[]) {
             temp[tempCur++] = infix[cur];
             cur++;
 
+            // Read while character is a number
             while (infix[cur] != '\0' && isNumber(infix[cur])) {
                 temp[tempCur++] = infix[cur++];
             }
@@ -159,8 +160,8 @@ tokenizeInfix(char* infix, Queue* infixQueue, Operator storedOperators[]) {
             enqueue(infixQueue, temp);
         }
         else {
-            bool matched_operator = false;
-            // Check two char operators
+            bool isOperator = false;
+            // Check two-char operators
             if (infix[cur+1] != '\0') {
                 char twoCharOperator[3];
                 twoCharOperator[0] = infix[cur];
@@ -170,11 +171,12 @@ tokenizeInfix(char* infix, Queue* infixQueue, Operator storedOperators[]) {
                 if (getOperatorIdx(twoCharOperator, storedOperators) != -1) {
                      strcpy(temp, twoCharOperator);
                      cur += 2;
-                     matched_operator = true;
+                     isOperator = true;
                 }
             }
 
-            if (!matched_operator) {
+            // Assuming infix string is valid, current char is a one-char operator
+            if (!isOperator) {
                 temp[0] = infix[cur];
                 temp[1] = '\0';
                 cur++;
