@@ -54,7 +54,7 @@ popStack (Stack *stack)
 }
 
 /**
- * This function pushes (adds) an item to the stack.
+ * This function pushes (inserts) an item to the stack.
  * @param stack stack to be added on
  * @param item element to be pushed to the stack
  */
