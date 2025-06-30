@@ -20,10 +20,13 @@ int main() {
         postfix[0] = '\0';
 
         convertToPostfix(infix, &postfixQueue, postfix);
-        answer = evaluatePostfix(postfixQueue);
 
         printf("%s\n", infix);
         printf("%s\n", postfix);
-        printf("%d\n\n", answer);
+
+        if (evaluatePostfix(postfixQueue,  &answer))
+            printf("%d\n\n", answer);
+        else
+            printf("Division by zero error!\n\n");
     }
 }
