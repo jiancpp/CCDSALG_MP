@@ -231,7 +231,7 @@ evaluatePostfix(Queue postfix, int* result) {
                 operand1 = parseToInt(popStack(&operands));
 
                 // Check for division by 0 error
-                if (!(strcmp(token, "/") == 0 && operand2 == 0)) {
+                if (!((strcmp(token, "/") == 0 || strcmp(token, "%") == 0) && operand2 == 0)) {
                     sprintf(ans, "%d", solve(operand1, operand2, token));
                     pushStack(&operands, ans); 
                 } else
