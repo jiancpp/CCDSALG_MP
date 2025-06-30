@@ -2,8 +2,11 @@
 #include <string.h>
 #include "queue.h"
 
-// Define functions here
-
+/**
+ * This function clears a queue by resetting the indices
+ * head (start) to 0, and tail (end) to -1.
+ * @param queue the stack to be cleared
+ */
 void
 clearQueue (Queue *queue)
 {
@@ -11,14 +14,24 @@ clearQueue (Queue *queue)
     queue->tail = -1;
 }
 
+/**
+ * This function checks if the queue is full based on the maximum capacity.
+ * @param queue the stack to be checked if full
+ * @return (a) true if queue is full (b) false if queue is not full
+ */
 bool
 isFullQueue (Queue *queue)
 {
-    if (queue->tail == MAX_CAPACITY - 1) {
+    if (queue->tail == MAX_CAPACITY - 2) {
         return true;
     } else return false;
 }
 
+/**
+ * This function checks if the queue is empty.
+ * @param queue the queue to be checked if empty
+ * @return (a) true if queue is empty (b) false if queue is not empty
+ */
 bool
 isEmptyQueue (Queue *queue)
 {
@@ -44,6 +57,11 @@ enqueue (Queue *queue, char* item)
     strcpy (queue->collection[queue->tail], item);
 }
 
+/**
+ * This function returns the element at the tail (end) of the queue.
+ * @param queue queue to be peeked
+ * @return element at the tail of the queue
+ */
 char*
 peekQueue (Queue *queue)
 {
