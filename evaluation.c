@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 
@@ -171,9 +172,8 @@ solve(int operand1, int operand2, char* operator) {
         return !operand1;
     } else if (strcmp(operator, "&&") == 0) {
         return operand1 && operand2;
-    } else if (strcmp(operator, "||") == 0) {
+    } else if (strcmp(operator, "||") == 0)
         return operand1 || operand2;
-    }
 }
 
 /**
