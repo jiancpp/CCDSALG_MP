@@ -1,41 +1,56 @@
 #include "calculator.h"
+#include "conversion.h"
 #include "evaluation.h"
 
-void convertPostfixToQueue(String256 postfix, Queue* postfixQueue)
+void 
+tokenizePostfix(String256 postfix, Queue* postfixQueue)
 {
-    int cur, idxNumber;
-    String256 number, symbol;
+    int cur, operandIdx, operatorIdx;
+    String256 operand, operator;
 
     cur = 0;
+    operandIdx = 0;
+    operatorIdx = 0;
 
-    while(strlen(postfix) != 0)
+    while (strlen(postfix) != 0)
     {
-        while(postfix[cur] >= '0' && postfix[cur] <= 9)
+        while (isNumber(postfix[cur]))
         {
-            number[idxNumber] = postfix[cur];
-            idxNumber++;
+            operand[operandIdx] = postfix[cur];
+            operandIdx++;
             cur++;
         }
 
-        if(idxNumber != 0)
+        if (operandIdx != 0)
         {
-            number[idxNumber] = '/0';
-            idxNumber = 0;
-            enqueue(postfixQueue, number);
+            operand[operandIdx] = '\0';
+            printf("\n%s", operand);
+            operandIdx = 0;
+            enqueue(postfixQueue, operand);
         }
                     
-        if(postfix[cur] != '/n' && postfix[cur] != '/0')
+        while (postfix[cur] != ' ' && postfix[cur] != '\0')
         {
-            symbol[0] = postfix[cur];
-            symbol[1] = '/0';
-            enqueue(postfixQueue, symbol);
+            operator[operatorIdx] = postfix[cur];
+            operatorIdx++;
             cur++;
-        } else 
+        }
+
+        if (operatorIdx != 0)
+        {
+            operator[operatorIdx] = '\0';
+            printf("\n%s", operator);
+            operatorIdx = 0;
+            enqueue(postfixQueue, operator);
+        }
+        
+        if (postfix[cur] == ' ')
             cur++;
     }
 }
 
-int parseToInt(String256 number)
+int 
+parseToInt(String256 number)
 {
     int i, size, power, integer;
 
@@ -82,34 +97,35 @@ int parseToInt(String256 number)
     return integer;
 }
 
-int compute_postfix(Queue postfix) {
+int 
+evaluatePostfix(Queue postfix) {
     Stack operands;
     String256 token;
     int cur, op1, op2;
     
     for(cur = 0; cur <= postfix.tail; cur++)
     {
-        token = postfix.collection[cur];
+        strcpy(token, postfix.collection[cur]);
 
-        if(postfix.collection[cur][0] >= '0' && postfix.collection[cur][0] <= '9')
-            push(operands, postfix.collection[cur]);
+        if(isOperand(postfix.collection[cur][0]))
+            pushStack(&operands, postfix.collection[cur]);
         else
         {
-            op1 = parseToInt(pop(operands));
-            op2 = parseToInt(pop(operands));
+            op1 = parseToInt(popStack(&operands));
+            op2 = parseToInt(popStack(&operands));
         }
     }
         
-    for i = 1 to n {
-        token = Postfix[i]
-        if token is a value {
-             push(S,token)
-        } else {
-            op2 = pop(S)
-            op1 = pop(S)
-            push(S,perform operation of token on op1 and op2)
-        }
-    }
+    // for i = 1 to n {
+    //     token = Postfix[i]
+    //     if token is a value {
+    //          push(S,token)
+    //     } else {
+    //         op2 = pop(S)
+    //         op1 = pop(S)
+    //         push(S,perform operation of token on op1 and op2)
+    //     }
+    // }
 
-    return pop(S)
+    // return pop(S)
 }
