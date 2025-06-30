@@ -1,13 +1,13 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include "calculator.h"
 typedef struct {
     String256 collection[256];
     int tail; // index of last added element
     int head; // index of first added element
 } Queue;
 
-void        initQueue       (Queue *queue);
 void        clearQueue      (Queue *queue);
 bool        isFullQueue     (Queue *queue);
 bool        isEmptyQueue    (Queue *queue);

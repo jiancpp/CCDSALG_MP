@@ -1,7 +1,6 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "calculator.h"
 #include "stack.h"
 
 /*
@@ -32,10 +31,10 @@ isEmptyStack (Stack *stack)
     } else return false;
 }
 
-const char*
+char*
 popStack (Stack *stack)
 {
-    const char *temp = stack->collection[stack->top];
+    char *temp = stack->collection[stack->top];
     (stack->top)--;
     
     return temp;

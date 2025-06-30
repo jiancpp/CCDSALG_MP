@@ -1,10 +1,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "calculator.h"
 #include "conversion.h"
-#include "stack.h"
-#include "queue.h"
 
 /**
  * setOperator() sets the operator and precedence of an Operator
@@ -24,7 +21,11 @@ setOperator (char* operator, int precedence)
 }
 
 /**
- * initStoredOperators() initializes the operators that can be used   
+ * initStoredOperators()  a predefined set of operator symbols 
+ * and their corresponding precedence levels into the 
+ * storedOperators array.   
+ * 
+ * @param storeOperators array where operators are stored
  */
 void 
 initStoredOperators (Operator storedOperators[18]) 
@@ -45,8 +46,7 @@ initStoredOperators (Operator storedOperators[18])
     storedOperators[13] = setOperator("==", 1);
     storedOperators[14] = setOperator("!=", 1);
     storedOperators[15] = setOperator("&&", 0); 
-    storedOperators[16] = setOperator("||", -1);
-    storedOperators[17] = setOperator("=", -2); // lowest precedence (assignment)
+    storedOperators[16] = setOperator("||", -1); // lowest precedence (OR)
 }
 
 /**
@@ -60,7 +60,7 @@ int
 getOperatorIdx (char* operator, Operator storedOperators[18]) 
 {
     for (int i = 0; i < 18; i++)
-        if (strcmp(operator, storedOperators[i].operator))
+        if (strcmp(operator, storedOperators[i].operator) == 0)
             return i;
     
     return -1;
@@ -131,21 +131,57 @@ concatToPostfix(char* postfix, char* op)
     }
 }
 
-// For implementation @jia
+/**
+ * tokenizeInfix() splits an infix expression by operands and operators. This
+ * function stores each token in the given infixQueue
+ * 
+ * @param infix string containing infix expression
+ * @param infixQueue queue for storing tokens
+ */
 void
-tokenizeInfix(String256 infix, Queue* infixQueue) {
-    // int cur = 0;
-    // char temp[2];
-    // temp[1] = '\0';
+tokenizeInfix(char* infix, Queue* infixQueue, Operator storedOperators[]) {
+    int cur = 0, tempCur;
+    char temp[MAX_CAPACITY];
 
-    // Queue tempQueue;
+    // Read infix until null operator is reached
+    while (infix[cur] != '\0') {
+        tempCur = 0;
 
-    // while (infix[cur] != '\0') {
-    //     if (isNumber(infix[cur])) {
-    //         temp[0] = infix[cur];
-    //         enqueue(&tempQueue, temp);
-    //     }
-    // }
+        if (isNumber(infix[cur])) {
+            temp[tempCur++] = infix[cur];
+            cur++;
+
+            while (infix[cur] != '\0' && isNumber(infix[cur])) {
+                temp[tempCur++] = infix[cur++];
+            }
+
+            temp[tempCur] = '\0';
+            enqueue(infixQueue, temp);
+        }
+        else {
+            bool matched_operator = false;
+            // Check two char operators
+            if (infix[cur+1] != '\0') {
+                char twoCharOperator[3];
+                twoCharOperator[0] = infix[cur];
+                twoCharOperator[1] = infix[cur+1];
+                twoCharOperator[2] = '\0';
+
+                if (getOperatorIdx(twoCharOperator, storedOperators) != -1) {
+                     strcpy(temp, twoCharOperator);
+                     cur += 2;
+                     matched_operator = true;
+                }
+
+                if (!matched_operator) {
+                    temp[0] = infix[cur];
+                    temp[1] = '\0';
+                    cur++;
+                }
+            }
+            enqueue(infixQueue, temp);
+        }
+    }
 }
 
 /**
@@ -154,14 +190,12 @@ tokenizeInfix(String256 infix, Queue* infixQueue) {
  * 
  * @param infix string containing an infix expression
  * @param postfixQueue queue to store tokenized postfix 
- * @return string in postfix
  */
-char*
-convertToPostfix (String256 infix, Queue* postfixQueue) 
+void
+convertToPostfix (char* infix, Queue* postfixQueue, char* postfix) 
 {
     Operator operators[18];
     String256 temp;
-    String256 postfix = "";
 
     Queue infixQueue;
     Stack operatorStack;
@@ -171,7 +205,7 @@ convertToPostfix (String256 infix, Queue* postfixQueue)
     clearStack(&operatorStack);
     initStoredOperators(operators);
 
-    tokenizeInfix(infix, &infixQueue);
+    tokenizeInfix(infix, &infixQueue, operators);
 
     while (isEmptyQueue(&infixQueue) == false) {
         // Store first element in queue to temp
@@ -206,6 +240,4 @@ convertToPostfix (String256 infix, Queue* postfixQueue)
         enqueue(postfixQueue, operatorTemp);
         concatToPostfix(postfix, operatorTemp);
     }
-
-    return postfix;
 }

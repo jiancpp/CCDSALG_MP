@@ -2,6 +2,9 @@
 #define CONVERSION_H
 
 // Declare functions here
+#include "stack.h"
+#include "queue.h"
+#include "calculator.h"
 typedef struct
 {
     char operator[3];
@@ -15,7 +18,7 @@ bool        isLowerPrecedence       (char* operator1, char* operator2, Operator 
 bool        isNumber                (char c);
 bool        isOperand               (char* string);
 void        concatToPostfix         (char* postfix, char* op);
-void        tokenizeInfix           (String256 infix, Queue* infixQueue);
-char*       convertToPostfix        (String256 infix, Queue* postfixQueue);
+void        tokenizeInfix           (char* infix, Queue* infixQueue, Operator storedOperators[]);
+void        convertToPostfix        (char* infix, Queue* postfixQueue, char* postfix);
 
 #endif

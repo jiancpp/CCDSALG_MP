@@ -3,6 +3,8 @@
 
 #define CAPACITY (256);
 
+#include "calculator.h"
+
 typedef struct {
     String256 collection[256];
     int top; // index of last added element
@@ -11,7 +13,7 @@ typedef struct {
 void        clearStack      (Stack *stack);
 bool        isFullStack     (Stack *stack);
 bool        isEmptyStack    (Stack *stack);
-const char* popStack        (Stack *stack);
+char*       popStack        (Stack *stack);
 void        pushStack       (Stack *stack, char* item);
 char*       peekStack       (Stack *stack);
 
