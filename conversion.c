@@ -143,7 +143,14 @@ tokenizeInfix(String256 infix, Queue* infixQueue) {
     // }
 }
 
-// For implementation @jia
+/**
+ * converToPostfix() translates an infix expression to a postfix expression. The function
+ * updates and returns a postfix queue and string
+ * 
+ * @param infix string containing an infix expression
+ * @param postfixQueue queue to store tokenized postfix 
+ * @return string in postfix
+ */
 char*
 convertToPostfix (String256 infix, Queue* postfixQueue) 
 {
@@ -173,12 +180,12 @@ convertToPostfix (String256 infix, Queue* postfixQueue)
         else {
             // Check if operator stack is empty or top element of stack is of lower precedence than temp
             if (isEmptyStack(&operatorStack) || 
-                isLowerPrecedence(peekStack(&operatorStack), temp, operators) == true) {
+                isLowerPrecedence(peekStack(&operatorStack), temp, operators)) {
                 pushStack(&operatorStack, temp);
             }
             else {
                 // Pop operator stack until top element is lower precedence
-                while (isLowerPrecedence(peekStack(&operatorStack), temp, operators) == false) {
+                while (!isLowerPrecedence(peekStack(&operatorStack), temp, operators)) {
                     char* operatorTemp = popStack(&operatorStack);
                     enqueue(postfixQueue, operatorTemp);
                     concatToPostfix(postfix, operatorTemp);
@@ -188,7 +195,8 @@ convertToPostfix (String256 infix, Queue* postfixQueue)
         }
     }
 
-    while (isEmptyStack(&operatorStack)) {
+    // Flush operators in operator stack
+    while (!isEmptyStack(&operatorStack)) {
         char* operatorTemp = popStack(&operatorStack);
         enqueue(postfixQueue, operatorTemp);
         concatToPostfix(postfix, operatorTemp);
