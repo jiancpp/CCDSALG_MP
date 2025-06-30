@@ -13,6 +13,7 @@ int main() {
     int answer;
 
     Queue postfixQueue;
+    clearQueue(&postfixQueue);
 
     while (scanf("%s", infix) == 1 && strcmp(infix, "QUIT") != 0) {
         postfix[0] = '\0';
