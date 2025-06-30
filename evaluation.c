@@ -1,9 +1,19 @@
-#include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 
+#include "calculator.h"
+#include "conversion.h"
 #include "evaluation.h"
+#include "stack.h"
+#include "queue.h"
 
+/**
+ * tokenizePostfix() splits a postfix expression by operands and operators. This
+ * function stores each token in the given postfixQueue.
+ * 
+ * @param postfix string containing postfix expression
+ * @param postfixQueue queue for storing tokens
+ */
 void 
 tokenizePostfix(String256 postfix, Queue* postfixQueue)
 {
@@ -12,16 +22,22 @@ tokenizePostfix(String256 postfix, Queue* postfixQueue)
 
     cur = 0;
 
+    // Read postfix while cur is a valid character index
     while (strlen(postfix) > cur)
     {
+        // Skip whitespaces
         if (postfix[cur] == ' ')
             cur++;
 
+        // Set garbage character values to null
         memset(operand, 0, sizeof(operand));
         memset(operand, 0, sizeof(operator));
+
+        // Initialize operand and operator string indices
         operandIdx = 0;
         operatorIdx = 0;
 
+        // Read while the current character is a number
         while (isNumber(postfix[cur]))
         {
             operand[operandIdx] = postfix[cur];
@@ -31,11 +47,12 @@ tokenizePostfix(String256 postfix, Queue* postfixQueue)
 
         if (operandIdx != 0)
         {
+            // Terminate the operand and store it in the queue
             operand[operandIdx] = '\0';
-            printf("\n%s", operand);
-            enqueue(postfixQueue, operand);
+            enqueue(postfixQueue, operand); 
         }
-                    
+                   
+        // Read while the current character is a symbol
         while (postfix[cur] != ' ' && postfix[cur] != '\0')
         {
             operator[operatorIdx] = postfix[cur];
@@ -45,13 +62,19 @@ tokenizePostfix(String256 postfix, Queue* postfixQueue)
 
         if (operatorIdx != 0)
         {
+            // Terminate the operator and store it in the queue
             operator[operatorIdx] = '\0';
-            printf("\n%s", operator);
-            enqueue(postfixQueue, operator);
+            enqueue(postfixQueue, operator); 
         }
     }
 }
 
+/**
+ * parseToInt() parses a number stored as a string into an integer.
+ * 
+ * @param number string containing the number to be parsed
+ * @return integer form of the number
+ */
 int 
 parseToInt(String256 number)
 {
@@ -61,6 +84,7 @@ parseToInt(String256 number)
     power = 1;
     integer = 0;
 
+    // Reads each digit of the number from right to left
     for(i = size - 1; i >= 0; i--)
     {
         switch(number[i]) 
@@ -94,85 +118,121 @@ parseToInt(String256 number)
                 break;
         }
 
+        // Increase the place value of each digit by 1
         power *= 10;
     }
 
     return integer;
 }
 
+/**
+ * solve() takes an operator and applies the corresponding operation  
+ * on one or two operands, depending on the type of operation.
+ * 
+ * @param operand1 integer on the left side of the operation.
+ * @param operand1 integer on the right side of the operation
+ * @return integer form of the answer
+ */
 int
-solve(int op1, int op2, char* operator) {
+solve(int operand1, int operand2, char* operator) {
     if (strcmp(operator, "+") == 0) {
-        return op1 + op2;
+        return operand1 + operand2;
     } else if (strcmp(operator, "-") == 0) {
-        return op1 - op2;
+        return operand1 - operand2;
     } else if (strcmp(operator, "*") == 0) {
-        return op1 * op2;
+        return operand1 * operand2;
     } else if (strcmp(operator, "/") == 0) {
-        return op1 / op2;
+        return operand1 / operand2;
     } else if (strcmp(operator, "^") == 0) {
         int ans = 1;
 
-        if (op2 == 0)
+        if (operand2 == 0)
             return ans;
 
-        for (int i = 0; i < op2; i++)
-            ans *= op1;
+        for (int i = 0; i < operand2; i++)
+            ans *= operand1;
 
         return ans;    
     } else if (strcmp(operator, "%") == 0) {
-        return op1 % op2;
+        return operand1 % operand2;
     } else if (strcmp(operator, ">") == 0) {
-        return op1 > op2;
+        return operand1 > operand2;
     } else if (strcmp(operator, "<") == 0) {
-        return op1 < op2;
+        return operand1 < operand2;
     } else if (strcmp(operator, ">=") == 0) {
-        return op1 >= op2;
+        return operand1 >= operand2;
     } else if (strcmp(operator, "<=") == 0) {
-        return op1 <= op2;
+        return operand1 <= operand2;
     } else if (strcmp(operator, "!=") == 0) {
-        return op1 != op2;
+        return operand1 != operand2;
     } else if (strcmp(operator, "==") == 0) {
-        return op1 == op2;
+        return operand1 == operand2;
     } else if (strcmp(operator, "!") == 0) {
-        return !op1;
+        return !operand1;
     } else if (strcmp(operator, "&&") == 0) {
-        return op1 && op2;
+        return operand1 && operand2;
     } else if (strcmp(operator, "||") == 0) {
-        return op1 || op2;
+        return operand1 || operand2;
     }
 }
 
-int 
-evaluatePostfix(Queue postfix) {
+/**
+ * evaluatePostfix() takes a postfix queue and evaluates its contents.
+ * It reads the queue, stacks the operands, and computes once an
+ * operator is encountered.
+ * 
+ * @param postfix queue containing postfix tokens
+ * @param result integer that stores the evaluated value
+ * @return true if the evaluation is successful, otherwise false
+ */
+bool 
+evaluatePostfix(Queue postfix, int* result) {
     Stack operands;
     String256 token, ans;
-    int cur, op1, op2;
-
+    int cur, operand1, operand2;
+    bool isEvaluated;
+    
+    isEvaluated = true;
     operands.top = 0;
     
-    for(cur = 0; cur <= postfix.tail; cur++)
+    // Read each token in the queue
+    for(cur = 0; cur <= postfix.tail && isEvaluated; cur++)
     {
+        // Store the new token in a variable
         strcpy(token, dequeue(&postfix));
-        op1 = 0;
-        op2 = 0;
+
+        // Initialize operands
+        operand1 = 0;
+        operand2 = 0;
 
         if(isOperand(token))
+            // Push an operand into the stack
             pushStack(&operands, token);
         else
         {
+            // Check for a unary operator
             if (strcmp(token, "!") == 0) {
-                op1 = parseToInt(popStack(&operands));
-                sprintf(ans, "%d", solve(op1, op2, token));
+                operand1 = parseToInt(popStack(&operands));
+                sprintf(ans, "%d", solve(operand1, operand2, token));
+                // Push the answer into the stack
                 pushStack(&operands, ans);
             } else {
-                op2 = parseToInt(popStack(&operands));
-                op1 = parseToInt(popStack(&operands));
-                sprintf(ans, "%d", solve(op1, op2, token));
-                pushStack(&operands, ans);
+                operand2 = parseToInt(popStack(&operands));
+                operand1 = parseToInt(popStack(&operands));
+
+                // Check for division by 0 error
+                if (!(strcmp(token, "/") == 0 && operand2 == 0)) {
+                    sprintf(ans, "%d", solve(operand1, operand2, token));
+                    pushStack(&operands, ans); 
+                } else
+                    isEvaluated = false;
             }
         }
     }
 
-    return parseToInt(ans);
+    // Set evaluated value if the evaluation is successful
+    if (isEvaluated)
+        *result = parseToInt(ans);
+
+    return isEvaluated;
 }
