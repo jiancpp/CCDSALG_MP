@@ -14,11 +14,17 @@ tokenizePostfix(String256 postfix, Queue* postfixQueue)
     String256 operand, operator;
 
     cur = 0;
-    operandIdx = 0;
-    operatorIdx = 0;
 
-    while (strlen(postfix) != 0)
+    while (strlen(postfix) > cur)
     {
+        if (postfix[cur] == ' ')
+            cur++;
+
+        memset(operand, 0, sizeof(operand));
+        memset(operand, 0, sizeof(operator));
+        operandIdx = 0;
+        operatorIdx = 0;
+
         while (isNumber(postfix[cur]))
         {
             operand[operandIdx] = postfix[cur];
@@ -30,7 +36,6 @@ tokenizePostfix(String256 postfix, Queue* postfixQueue)
         {
             operand[operandIdx] = '\0';
             printf("\n%s", operand);
-            operandIdx = 0;
             enqueue(postfixQueue, operand);
         }
                     
@@ -45,12 +50,8 @@ tokenizePostfix(String256 postfix, Queue* postfixQueue)
         {
             operator[operatorIdx] = '\0';
             printf("\n%s", operator);
-            operatorIdx = 0;
             enqueue(postfixQueue, operator);
         }
-        
-        if (postfix[cur] == ' ')
-            cur++;
     }
 }
 
@@ -102,35 +103,77 @@ parseToInt(String256 number)
     return integer;
 }
 
+int
+solve(int op1, int op2, char* operator) {
+    if (strcmp(operator, "+") == 0) {
+        return op1 + op2;
+    } else if (strcmp(operator, "-") == 0) {
+        return op1 - op2;
+    } else if (strcmp(operator, "*") == 0) {
+        return op1 * op2;
+    } else if (strcmp(operator, "/") == 0) {
+        return op1 / op2;
+    } else if (strcmp(operator, "^") == 0) {
+        int ans = 1;
+
+        if (op2 == 0)
+            return ans;
+
+        for (int i = 0; i < op2; i++)
+            ans *= op1;
+
+        return ans;    
+    } else if (strcmp(operator, ">") == 0) {
+        return op1 > op2;
+    } else if (strcmp(operator, "<") == 0) {
+        return op1 < op2;
+    } else if (strcmp(operator, ">=") == 0) {
+        return op1 >= op2;
+    } else if (strcmp(operator, "<=") == 0) {
+        return op1 <= op2;
+    } else if (strcmp(operator, "!=") == 0) {
+        return op1 != op2;
+    } else if (strcmp(operator, "==") == 0) {
+        return op1 == op2;
+    } else if (strcmp(operator, "!") == 0) {
+        return !op1;
+    } else if (strcmp(operator, "&&") == 0) {
+        return op1 && op2;
+    } else if (strcmp(operator, "||") == 0) {
+        return op1 || op2;
+    }
+}
+
 int 
 evaluatePostfix(Queue postfix) {
     Stack operands;
-    String256 token;
+    String256 token, ans;
     int cur, op1, op2;
+
+    operands.top = 0;
     
     for(cur = 0; cur <= postfix.tail; cur++)
     {
-        strcpy(token, postfix.collection[cur]);
+        strcpy(token, dequeue(&postfix));
+        op1 = 0;
+        op2 = 0;
 
-        if(isOperand(postfix.collection[cur][0]))
-            pushStack(&operands, postfix.collection[cur]);
+        if(isOperand(token))
+            pushStack(&operands, token);
         else
         {
-            op1 = parseToInt(popStack(&operands));
-            op2 = parseToInt(popStack(&operands));
+            if (strcmp(token, "!") == 0) {
+                op1 = parseToInt(popStack(&operands));
+                sprintf(ans, "%d", solve(op1, op2, token));
+                pushStack(&operands, ans);
+            } else {
+                op2 = parseToInt(popStack(&operands));
+                op1 = parseToInt(popStack(&operands));
+                sprintf(ans, "%d", solve(op1, op2, token));
+                pushStack(&operands, ans);
+            }
         }
     }
-        
-    // for i = 1 to n {
-    //     token = Postfix[i]
-    //     if token is a value {
-    //          push(S,token)
-    //     } else {
-    //         op2 = pop(S)
-    //         op1 = pop(S)
-    //         push(S,perform operation of token on op1 and op2)
-    //     }
-    // }
 
-    // return pop(S)
+    return parseToInt(ans);
 }
