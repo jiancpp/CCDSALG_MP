@@ -2,6 +2,7 @@
 #define QUEUE_H
 
 #include "calculator.h"
+
 typedef struct {
     String256 collection[256];
     int tail; // index of last added element
