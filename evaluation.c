@@ -12,7 +12,7 @@ tokenizePostfix(String256 postfix, Queue* postfixQueue)
     operandIdx = 0;
     operatorIdx = 0;
 
-    while (strlen(postfix) != 0)
+    while (strlen(postfix) > cur)
     {
         while (isNumber(postfix[cur]))
         {
