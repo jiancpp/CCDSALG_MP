@@ -24,15 +24,17 @@ tokenizePostfix(String256 postfix, Queue* postfixQueue)
     cur = 0;
 
     // Read postfix while cur is a valid character index
-    while (strlen(postfix) > cur)
+    while (postfix[cur] != '\0')
     {
         // Skip whitespaces
-        if (postfix[cur] == ' ')
+        if (postfix[cur] == ' ') {
             cur++;
+            continue;
+        }    
 
         // Set garbage character values to null
         memset(operand, 0, sizeof(operand));
-        memset(operand, 0, sizeof(operator));
+        memset(operator, 0, sizeof(operator));
 
         // Initialize operand and operator string indices
         operandIdx = 0;
@@ -117,10 +119,13 @@ parseToInt(String256 number)
             case '9': 
                 integer = integer + power * 9;
                 break;
+            case '-':
+                integer = 0  - integer;
         }
 
-        // Increase the place value of each digit by 1
-        power *= 10;
+        if (number[i] != '-')
+            // Increase the place value of each digit by 1
+            power *= 10;
     }
 
     return integer;
@@ -181,25 +186,33 @@ solve(int operand1, int operand2, char* operator) {
  * It reads the queue, stacks the operands, and computes once an
  * operator is encountered.
  * 
- * @param postfix queue containing postfix tokens
+ * @param postfix string containing postfix
  * @param result integer that stores the evaluated value
  * @return true if the evaluation is successful, otherwise false
  */
 bool 
-evaluatePostfix(Queue postfix, int* result) {
+evaluatePostfix(String256 postfix, int* result) {
     Stack operands;
+    Queue postfixQueue;
+
     String256 token, ans;
     int cur, operand1, operand2;
     bool isEvaluated;
-    
+
+    // Initialize
+    clearStack(&operands);
+    clearQueue(&postfixQueue);
     isEvaluated = true;
     operands.top = 0;
+
+    // Tokenize postfix and store tokens in postfixQueue
+    tokenizePostfix(postfix, &postfixQueue);
     
     // Read each token in the queue
-    for(cur = 0; cur <= postfix.tail && isEvaluated; cur++)
+    for(cur = 0; cur <= postfixQueue.tail && isEvaluated; cur++)
     {
         // Store the new token in a variable
-        strcpy(token, dequeue(&postfix));
+        strcpy(token, dequeue(&postfixQueue));
 
         // Initialize operands
         operand1 = 0;

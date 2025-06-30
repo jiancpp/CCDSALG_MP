@@ -19,7 +19,7 @@ int main() {
         printf("%s\n", infix);
         printf("%s\n", postfix);
 
-        if (evaluatePostfix(postfix))
+        if (evaluatePostfix(postfix, &answer))
             printf("%d\n\n", answer);
         else
             printf("Division by zero error!\n\n");
