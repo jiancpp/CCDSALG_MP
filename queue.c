@@ -30,8 +30,6 @@ isEmptyQueue (Queue *queue)
 const char*
 dequeue (Queue *queue)
 {
-    int i;
-
     const char *temp = queue->collection[queue->head];
     (queue->head)++;
 
