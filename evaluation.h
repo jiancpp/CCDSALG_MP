@@ -10,6 +10,6 @@
 void        tokenizePostfix      (String256 postfix, Queue* postfixQueue);    
 int         parseToInt           (String256 number);
 int         solve                (int operand1, int operand2, char* operator);
-bool        evaluatePostfix      (String256 postfix, int* result);
+bool        evaluatePostfix      (Queue postfix, int* result);
 
 #endif

@@ -186,14 +186,13 @@ solve(int operand1, int operand2, char* operator) {
  * It reads the queue, stacks the operands, and computes once an
  * operator is encountered.
  * 
- * @param postfix string containing postfix
+ * @param postfix queue containing postfix tokens
  * @param result integer that stores the evaluated value
  * @return true if the evaluation is successful, otherwise false
  */
 bool 
-evaluatePostfix(String256 postfix, int* result) {
+evaluatePostfix(Queue postfix, int* result) {
     Stack operands;
-    Queue postfixQueue;
 
     String256 token, ans;
     int cur, operand1, operand2;
@@ -201,18 +200,14 @@ evaluatePostfix(String256 postfix, int* result) {
 
     // Initialize
     clearStack(&operands);
-    clearQueue(&postfixQueue);
     isEvaluated = true;
     operands.top = 0;
-
-    // Tokenize postfix and store tokens in postfixQueue
-    tokenizePostfix(postfix, &postfixQueue);
     
     // Read each token in the queue
-    for(cur = 0; cur <= postfixQueue.tail && isEvaluated; cur++)
+    for(cur = 0; cur <= postfix.tail && isEvaluated; cur++)
     {
         // Store the new token in a variable
-        strcpy(token, dequeue(&postfixQueue));
+        strcpy(token, dequeue(&postfix));
 
         // Initialize operands
         operand1 = 0;
