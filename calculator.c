@@ -5,26 +5,21 @@
 #include "calculator.h"
 #include "conversion.h"
 #include "evaluation.h"
-#include "queue.h"
 
 int main() {
     String256 infix;
     String256 postfix;
     int answer;
-    Queue postfixQueue;
-
-    postfixQueue.tail = -1;
-    postfixQueue.head = 0;
 
     while (scanf("%s", infix) == 1 && strcmp(infix, "ZZZ") != 0) {
         postfix[0] = '\0';
 
-        convertToPostfix(infix, &postfixQueue, postfix);
+        convertToPostfix(infix, postfix);
 
         printf("%s\n", infix);
         printf("%s\n", postfix);
 
-        if (evaluatePostfix(postfixQueue,  &answer))
+        if (evaluatePostfix(postfix))
             printf("%d\n\n", answer);
         else
             printf("Division by zero error!\n\n");
