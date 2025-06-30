@@ -242,7 +242,7 @@ evaluatePostfix(Queue postfix, int* result) {
 
     // Set evaluated value if the evaluation is successful
     if (isEvaluated)
-        *result = parseToInt(ans);
+        *result = parseToInt(popStack(&operands));
 
     return isEvaluated;
 }
