@@ -16,7 +16,7 @@ int main() {
     postfixQueue.tail = -1;
     postfixQueue.head = 0;
 
-    while (scanf("%s", infix) == 1 && strcmp(infix, "ZZZ") != 0) {
+    while (scanf("%s", infix) == 1 && strcmp(infix, "QUIT") != 0) {
         postfix[0] = '\0';
 
         convertToPostfix(infix, &postfixQueue, postfix);
