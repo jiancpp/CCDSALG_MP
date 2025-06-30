@@ -6,13 +6,14 @@
 void
 clearQueue (Queue *queue)
 {
+    queue->head = 0;
     queue->tail = -1;
 }
 
 bool
 isFullQueue (Queue *queue)
 {
-    if (queue->tail == 254) {
+    if (queue->tail == MAX_CAPACITY - 1) {
         return true;
     } else return false;
 }
@@ -20,7 +21,7 @@ isFullQueue (Queue *queue)
 bool
 isEmptyQueue (Queue *queue)
 {
-    if (queue->tail == -1) {
+    if (queue->head > queue->tail) {
         return true;
     } else return false;
 }
@@ -30,14 +31,8 @@ dequeue (Queue *queue)
 {
     int i;
 
-    const char *temp = queue->collection[0];
-
-    for (i = 0; i < (queue->tail) - 1; i++)
-    {
-        strcpy(queue->collection[i], queue->collection[i + 1]);
-    }
-        
-    (queue->tail)--;
+    const char *temp = queue->collection[queue->head];
+    (queue->head)++;
 
     return temp;
 }
@@ -45,8 +40,9 @@ dequeue (Queue *queue)
 void
 enqueue (Queue *queue, char* item)
 {
+    // Note: Tail points to index of last added element
+    (queue->tail)++; // incrementing to avoid overwriting previous element
     strcpy (queue->collection[queue->tail], item);
-    (queue->tail)++;
 }
 
 char*

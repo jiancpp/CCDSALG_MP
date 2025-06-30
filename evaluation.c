@@ -1,10 +1,10 @@
 #include "calculator.h"
 #include "evaluation.h"
 
-void convertPostfixToQueue(String postfix, Queue* postfixQueue)
+void convertPostfixToQueue(String256 postfix, Queue* postfixQueue)
 {
     int cur, idxNumber;
-    String number, symbol;
+    String256 number, symbol;
 
     cur = 0;
 
@@ -35,7 +35,7 @@ void convertPostfixToQueue(String postfix, Queue* postfixQueue)
     }
 }
 
-int parseToInt(String number)
+int parseToInt(String256 number)
 {
     int i, size, power, integer;
 
@@ -84,7 +84,7 @@ int parseToInt(String number)
 
 int compute_postfix(Queue postfix) {
     Stack operands;
-    String token
+    String256 token;
     int cur, op1, op2;
     
     for(cur = 0; cur <= postfix.tail; cur++)

@@ -4,7 +4,7 @@
 #define CAPACITY (256);
 
 typedef struct {
-    String collection[256];
+    String256 collection[256];
     int top; // index of last added element
 } Stack;
 
