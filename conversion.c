@@ -30,23 +30,23 @@ setOperator (char* operator, int precedence)
 void 
 initStoredOperators (Operator storedOperators[18]) 
 {
-    storedOperators[0]  = setOperator("(", 6); // highest precedence (grouping symbol)
-    storedOperators[1]  = setOperator(")", 6); 
-    storedOperators[2]  = setOperator("!", 5); 
-    storedOperators[3]  = setOperator("^", 4); 
-    storedOperators[4]  = setOperator("*", 3);
-    storedOperators[5]  = setOperator("/", 3);
-    storedOperators[6]  = setOperator("%", 3);
-    storedOperators[7]  = setOperator("+", 2);
-    storedOperators[8]  = setOperator("-", 2);
-    storedOperators[9]  = setOperator("<", 1);
-    storedOperators[10] = setOperator("<=", 1);
-    storedOperators[11] = setOperator(">", 1);
-    storedOperators[12] = setOperator(">=", 1);
-    storedOperators[13] = setOperator("==", 1);
-    storedOperators[14] = setOperator("!=", 1);
-    storedOperators[15] = setOperator("&&", 0); 
-    storedOperators[16] = setOperator("||", -1); // lowest precedence (OR)
+    storedOperators[0]  = setOperator("(", 8); // highest precedence (grouping symbol)
+    storedOperators[1]  = setOperator(")", 8); 
+    storedOperators[2]  = setOperator("!", 7); 
+    storedOperators[3]  = setOperator("^", 6); 
+    storedOperators[4]  = setOperator("*", 5);
+    storedOperators[5]  = setOperator("/", 5);
+    storedOperators[6]  = setOperator("%", 5);
+    storedOperators[7]  = setOperator("+", 4);
+    storedOperators[8]  = setOperator("-", 4);
+    storedOperators[9]  = setOperator("<", 3);
+    storedOperators[10] = setOperator("<=", 3);
+    storedOperators[11] = setOperator(">", 3);
+    storedOperators[12] = setOperator(">=", 3);
+    storedOperators[13] = setOperator("==", 3);
+    storedOperators[14] = setOperator("!=", 3);
+    storedOperators[15] = setOperator("&&", 2); 
+    storedOperators[16] = setOperator("||", 1); // lowest precedence (OR)
 }
 
 /**
