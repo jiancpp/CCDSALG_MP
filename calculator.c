@@ -1,5 +1,7 @@
-#include "stack.h"
-#include "queue.h"
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
 #include "conversion.h"
 #include "evaluation.h"
 

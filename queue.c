@@ -1,3 +1,6 @@
+#include <stdbool.h>
+#include <string.h>
+
 #include "calculator.h"
 #include "queue.h"
 

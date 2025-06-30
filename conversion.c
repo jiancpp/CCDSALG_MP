@@ -1,5 +1,10 @@
+#include <stdbool.h>
+#include <string.h>
+
 #include "calculator.h"
 #include "conversion.h"
+#include "stack.h"
+#include "queue.h"
 
 /**
  * setOperator() sets the operator and precedence of an Operator

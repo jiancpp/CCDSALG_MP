@@ -1,9 +1,6 @@
 #ifndef CONVERSION_H
 #define CONVERSION_H
 
-#include "stack.h"
-#include "queue.h"
-
 // Declare functions here
 typedef struct
 {

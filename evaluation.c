@@ -1,6 +1,11 @@
+#include <stdbool.h>
+#include <string.h>
+
 #include "calculator.h"
 #include "conversion.h"
 #include "evaluation.h"
+#include "stack.h"
+#include "queue.h"
 
 void 
 tokenizePostfix(String256 postfix, Queue* postfixQueue)
