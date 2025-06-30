@@ -9,6 +9,7 @@
 // Declare functions here
 void        tokenizePostfix      (String256 postfix, Queue* postfixQueue);    
 int         parseToInt           (String256 number);
-int         evaluatePostfix      (Queue postfix);
+int         solve                (int operand1, int operand2, char* operator);
+bool        evaluatePostfix      (Queue postfix, int* result);
 
 #endif
