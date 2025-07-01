@@ -76,6 +76,7 @@ getOperatorIdx (char* operator, Operator storedOperators[18])
  * false if operator1 has a higher or equal precedence with operator2.
  * 
  * @note operator1 and operator2 must be found within the storedOperators
+ * @note for right associative operators: equal precedence is considered lower precedence
  */
 bool
 isLowerPrecedence (char* operator1, char* operator2, Operator storedOperators[18]) 
@@ -83,6 +84,11 @@ isLowerPrecedence (char* operator1, char* operator2, Operator storedOperators[18
     int idx1 = getOperatorIdx(operator1, storedOperators); 
     int idx2 = getOperatorIdx(operator2, storedOperators);
 
+    // For right associative operators
+    if (strcmp(operator2, "^") == 0)
+        return storedOperators[idx1].precedence <= storedOperators[idx2].precedence;
+
+    // For left associative operators
     return storedOperators[idx1].precedence < storedOperators[idx2].precedence;
 }
 
@@ -146,6 +152,12 @@ tokenizeInfix(char* infix, Queue* infixQueue, Operator storedOperators[]) {
     // Read infix until null operator is reached
     while (infix[cur] != '\0') {
         tempCur = 0;
+
+        // Skip whitespaces
+        if (infix[cur] == ' ') {
+            cur++;
+            continue;
+        }    
 
         if (isNumber(infix[cur])) {
             temp[tempCur++] = infix[cur];
@@ -230,22 +242,16 @@ convertToPostfix (char* infix, char* postfix)
             popStack(&operatorStack); // discard "("
         }
 
-        // Handling for other operators
+        // For other operators that are not grouping symbols
         else {
-            // Check if operator stack is empty or top element of stack is of lower precedence than temp
-            if (isEmptyStack(&operatorStack) || 
-                isLowerPrecedence(peekStack(&operatorStack), temp, operators)) {
-                pushStack(&operatorStack, temp);
+            // Execute loop for popping operatorStack
+            while (!isEmptyStack(&operatorStack) &&
+                    strcmp(peekStack(&operatorStack), "(") != 0 && 
+                    !isLowerPrecedence(peekStack(&operatorStack), temp, operators)) {
+                char* operatorTemp = popStack(&operatorStack);
+                concatToPostfix(postfix, operatorTemp);
             }
-            else {
-                // Pop operator stack until top element is lower precedence and is not a grouping symbol
-                while (strcmp(peekStack(&operatorStack), "(") != 0 && 
-                       !isLowerPrecedence(peekStack(&operatorStack), temp, operators)) {
-                    char* operatorTemp = popStack(&operatorStack);
-                    concatToPostfix(postfix, operatorTemp);
-                }
-                pushStack(&operatorStack, temp);
-            }
+            pushStack(&operatorStack, temp);
         }
     }
 
