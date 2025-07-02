@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 
@@ -84,8 +85,9 @@ isLowerPrecedence (char* operator1, char* operator2, Operator storedOperators[18
     int idx1 = getOperatorIdx(operator1, storedOperators); 
     int idx2 = getOperatorIdx(operator2, storedOperators);
 
-    // For right associative operators
-    if (strcmp(operator2, "^") == 0)
+    // For right associative operators and unary operators
+    if (strcmp(operator2, "^") == 0 ||
+        strcmp(operator2, "!") == 0 )
         return storedOperators[idx1].precedence <= storedOperators[idx2].precedence;
 
     // For left associative operators
