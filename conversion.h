@@ -18,8 +18,8 @@ int         getOperatorIdx          (char* operator, Operator storedOperators[18
 bool        isLowerPrecedence       (char* operator1, char* operator2, Operator storedOperators[18]);
 bool        isNumber                (char c);
 bool        isOperand               (char* string);
-void        concatToPostfix         (char* postfix, char* op);
 void        tokenizeInfix           (char* infix, Queue* infixQueue, Operator storedOperators[]);
-void        convertToPostfix        (char* infix, char* postfix);
+void        convertToPostfix        (char* infix, Queue* postfix);
+void        displayPostfix          (Queue postfix);
 
 #endif

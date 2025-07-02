@@ -5,21 +5,25 @@
 #include "calculator.h"
 #include "conversion.h"
 #include "evaluation.h"
+#include "queue.h"
 
 int main() {
     // Declare variables
     String256 infix;
-    String256 postfix;
     int answer;
 
+    Queue postfix;
+
     while (scanf("%s", infix) == 1 && strcmp(infix, "QUIT") != 0) {
-        postfix[0] = '\0'; // Clear postfix string
+        clearQueue(&postfix);
 
-        convertToPostfix(infix, postfix);
+        convertToPostfix(infix, &postfix);
 
-        // Display infix and postfix expressions
+        // Display infix expression
         printf("%s\n", infix);
-        printf("%s\n", postfix);
+        
+        // Display postfix expression
+        displayPostfix(postfix);
 
         // Display answer after evaluation
         if (evaluatePostfix(postfix, &answer))

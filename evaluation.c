@@ -193,8 +193,7 @@ solve(int operand1, int operand2, char* operator) {
  * @return true if the evaluation is successful, otherwise false
  */
 bool 
-evaluatePostfix(char* postfixStr, int* result) {
-    Queue postfix;
+evaluatePostfix(Queue postfix, int* result) {
     Stack operands;
 
     String256 token, ans;
@@ -202,12 +201,10 @@ evaluatePostfix(char* postfixStr, int* result) {
     bool isEvaluated;
 
     // Initialize
-    clearQueue(&postfix);
     clearStack(&operands);
     isEvaluated = true;
     operands.top = 0;
 
-    tokenizePostfix(postfixStr, &postfix);
     
     // Read each token in the queue
     for(cur = 0; cur <= postfix.tail && isEvaluated; cur++)

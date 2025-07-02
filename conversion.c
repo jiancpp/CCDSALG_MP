@@ -118,26 +118,6 @@ isOperand (char* string) {
 }
 
 /**
- * concatToPostfix() concatenates an operator or operand to postfix string
- * 
- * @param postfix destination string
- * @param op source string containing either operand or operator 
- */
-void
-concatToPostfix(char* postfix, char* op) 
-{
-    // Destination is empty
-    if (strlen(postfix) == 0) {
-        strcpy(postfix, op);
-    }
-    // Destination is not empty
-    else {
-        strcat(postfix, " ");
-        strcat(postfix, op);
-    }
-}
-
-/**
  * tokenizeInfix() splits an infix expression by operands and operators. This
  * function stores each token in the given infixQueue
  * 
@@ -205,7 +185,7 @@ tokenizeInfix(char* infix, Queue* infixQueue, Operator storedOperators[]) {
  * @param postfix string to contain resulting postfix expression 
  */
 void
-convertToPostfix (char* infix, char* postfix) 
+convertToPostfix (char* infix, Queue* postfix) 
 {
     Operator operators[18];
     String256 temp;
@@ -226,7 +206,7 @@ convertToPostfix (char* infix, char* postfix)
 
         // Check if temp stores an operand or an operator
         if (isOperand(temp)) {
-            concatToPostfix(postfix, temp);
+            enqueue(postfix, temp);
         }
 
         // Special handling for grouping symbol
@@ -236,7 +216,7 @@ convertToPostfix (char* infix, char* postfix)
         else if (strcmp(temp, ")") == 0){
             while (!isEmptyStack(&operatorStack) && strcmp(peekStack(&operatorStack), "(") != 0) {
                 char* operator = popStack(&operatorStack);
-                concatToPostfix(postfix, operator);
+                enqueue(postfix, operator);
             }
 
             popStack(&operatorStack); // discard "("
@@ -249,7 +229,7 @@ convertToPostfix (char* infix, char* postfix)
                     strcmp(peekStack(&operatorStack), "(") != 0 && 
                     !isLowerPrecedence(peekStack(&operatorStack), temp, operators)) {
                 char* operatorTemp = popStack(&operatorStack);
-                concatToPostfix(postfix, operatorTemp);
+                enqueue(postfix, operatorTemp);
             }
             pushStack(&operatorStack, temp);
         }
@@ -259,7 +239,15 @@ convertToPostfix (char* infix, char* postfix)
     while (!isEmptyStack(&operatorStack)) {
         char* operatorTemp = popStack(&operatorStack);
         if (strcmp(operatorTemp, "(") != 0) {
-            concatToPostfix(postfix, operatorTemp);
+            enqueue(postfix, operatorTemp);
         }
     }
+}
+
+void
+displayPostfix(Queue postfix) {
+    while (!isEmptyQueue(&postfix)) {
+        printf("%s ", dequeue(&postfix));
+    }
+    printf("\n");
 }
