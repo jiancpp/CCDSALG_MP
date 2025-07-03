@@ -5,7 +5,7 @@
 #include "conversion.h"
 
 /**
- * setOperator() sets the operator and precedence of an Operator
+ * This function sets the operator and precedence of an Operator
  * struct with the given input.
  * 
  * @param operator string containing operator
@@ -22,7 +22,7 @@ setOperator (char* operator, int precedence)
 }
 
 /**
- * initStoredOperators()  a predefined set of operator symbols 
+ * This function initializes a predefined set of operator symbols 
  * and their corresponding precedence levels into the 
  * storedOperators array.   
  * 
@@ -51,7 +51,7 @@ initStoredOperators (Operator storedOperators[18])
 }
 
 /**
- * getOperatorIdx() searches for the given operator in the array of stored operators
+ * This function searches for the given operator in the array of stored operators.
  * 
  * @param operator string containing operator
  * @param storedOperators array of initialized Operators
@@ -68,8 +68,8 @@ getOperatorIdx (char* operator, Operator storedOperators[18])
 }
 
 /**
- * isLowerPrecedence() checks if operator1 is of lower precedence with
- * operator2
+ * This function checks if operator1 is of lower precedence with
+ * operator2.
  * 
  * @param operator1
  * @param operator2
@@ -95,7 +95,7 @@ isLowerPrecedence (char* operator1, char* operator2, Operator storedOperators[18
 }
 
 /**
- * isNumber() determines whether given char variable contains a number
+ * This function determines whether given char variable contains a number
  * 
  * @param c character variable to be checked
  * @return true if number, otherwise false
@@ -108,7 +108,7 @@ isNumber (char c) {
 }
 
 /**
- * isNumber() determines whether given string variable is an operand
+ * This function determines whether given string variable is an operand.
  * 
  * @param string string to be checked
  * @return true if string contains only numbers, otherwise false
@@ -120,8 +120,8 @@ isOperand (char* string) {
 }
 
 /**
- * tokenizeInfix() splits an infix expression by operands and operators. This
- * function stores each token in the given infixQueue
+ * This function splits an infix expression by operands and operators. This
+ * function stores each token in the given infixQueue.
  * 
  * @param infix string containing infix expression
  * @param infixQueue queue for storing tokens
@@ -181,7 +181,7 @@ tokenizeInfix(char* infix, Queue* infixQueue, Operator storedOperators[]) {
 }
 
 /**
- * converToPostfix() translates an infix expression to a postfix expression.
+ * This function translates an infix expression to a postfix expression.
  * 
  * @param infix string containing an infix expression
  * @param postfix string to contain resulting postfix expression 

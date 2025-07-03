@@ -9,8 +9,8 @@
 #include "queue.h"
 
 /**
- * tokenizePostfix() splits a postfix expression by operands and operators. This
- * function stores each token in the given postfixQueue.
+ * This function splits a postfix expression by operands and operators, and it 
+ * stores each token in the given postfixQueue.
  * 
  * @param postfix string containing postfix expression
  * @param postfixQueue queue for storing tokens
@@ -75,7 +75,7 @@ tokenizePostfix(String256 postfix, Queue* postfixQueue)
 }
 
 /**
- * parseToInt() parses a number stored as a string into an integer.
+ * This function parses a number stored as a string into an integer.
  * 
  * @param number string containing the number to be parsed
  * @return integer form of the number
@@ -134,7 +134,7 @@ parseToInt(String256 number)
 }
 
 /**
- * solve() takes an operator and applies the corresponding operation  
+ * This function takes an operator and applies the corresponding operation  
  * on one or two operands, depending on the type of operation.
  * 
  * @param operand1 integer on the left side of the operation.
@@ -184,7 +184,7 @@ solve(int operand1, int operand2, char* operator) {
 }
 
 /**
- * evaluatePostfix() takes a postfix queue and evaluates its contents.
+ * This function takes a postfix queue and evaluates its contents.
  * It reads the queue, stacks the operands, and computes once an
  * operator is encountered.
  * 
