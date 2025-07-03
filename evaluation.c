@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <math.h>
 
 #include "calculator.h"
 #include "conversion.h"
@@ -152,15 +153,7 @@ solve(int operand1, int operand2, char* operator) {
     } else if (strcmp(operator, "/") == 0) {
         return operand1 / operand2;
     } else if (strcmp(operator, "^") == 0) {
-        int ans = 1;
-
-        if (operand2 == 0)
-            return ans;
-
-        for (int i = 0; i < operand2; i++)
-            ans *= operand1;
-
-        return ans;    
+        return (int)pow(operand1, operand2);   
     } else if (strcmp(operator, "%") == 0) {
         return operand1 % operand2;
     } else if (strcmp(operator, ">") == 0) {
