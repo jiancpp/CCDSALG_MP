@@ -190,7 +190,8 @@ solve(int operand1, int operand2, char* operator) {
  * 
  * @param postfix queue containing postfix tokens
  * @param result integer that stores the evaluated value
- * @return true if the evaluation is successful, otherwise false
+ * @return (a) true if the evaluation is successful;
+ *         (b) false otherwise.
  */
 bool 
 evaluatePostfix(Queue postfix, int* result) {

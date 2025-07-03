@@ -17,7 +17,8 @@ clearQueue (Queue *queue)
 /**
  * This function checks if the queue is full based on the maximum capacity.
  * @param queue the stack to be checked if full
- * @return (a) true if queue is full (b) false if queue is not full
+ * @return (a) true if queue is full;
+ *         (b) false if queue is not full.
  */
 bool
 isFullQueue (Queue *queue)
@@ -30,7 +31,8 @@ isFullQueue (Queue *queue)
 /**
  * This function checks if the queue is empty.
  * @param queue the queue to be checked if empty
- * @return (a) true if queue is empty (b) false if queue is not empty
+ * @return (a) true if queue is empty;
+ *         (b) false if queue has at least one element.
  */
 bool
 isEmptyQueue (Queue *queue)

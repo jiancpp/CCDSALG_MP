@@ -16,7 +16,8 @@ clearStack (Stack *stack)
 /**
  * This function checks if the stack is full based on the maximum capacity.
  * @param stack the stack to be checked if full
- * @return (a) true if stack is full (b) false if stack is not full
+ * @return (a) true if stack is full;
+ *         (b) false if stack is not full.
  */
 bool
 isFullStack (Stack *stack)
@@ -29,7 +30,8 @@ isFullStack (Stack *stack)
 /**
  * This function checks if the stack is empty.
  * @param stack the stack to be checked if empty
- * @return (a) true if stack is empty (b) false if stack is not empty
+ * @return (a) true if stack is empty;
+ *         (b) false if stack has at least one element.
  */
 bool
 isEmptyStack (Stack *stack)
