@@ -125,7 +125,7 @@ evaluatePostfix(Queue postfix, int* result) {
     Stack operands;
 
     String256 token, ans;
-    int cur, operand1, operand2;
+    int operand1, operand2;
     bool isEvaluated;
 
     // Initialize
@@ -135,7 +135,7 @@ evaluatePostfix(Queue postfix, int* result) {
 
     
     // Read each token in the queue
-    for(cur = 0; cur <= postfix.tail && isEvaluated; cur++)
+    while (!isEmptyQueue(&postfix))
     {
         // Store the new token in a variable
         strcpy(token, dequeue(&postfix));
@@ -144,7 +144,7 @@ evaluatePostfix(Queue postfix, int* result) {
         operand1 = 0;
         operand2 = 0;
 
-        if(isOperand(token))
+        if(isOperand(token) && !isFullStack(&operands))
             // Push an operand into the stack
             pushStack(&operands, token);
         else
@@ -154,7 +154,8 @@ evaluatePostfix(Queue postfix, int* result) {
                 operand1 = parseToInt(popStack(&operands));
                 sprintf(ans, "%d", solve(operand1, operand2, token));
                 // Push the answer into the stack
-                pushStack(&operands, ans);
+                if (!isFullStack(&operands))
+                    pushStack(&operands, ans);
             } else {
                 operand2 = parseToInt(popStack(&operands));
                 operand1 = parseToInt(popStack(&operands));
@@ -162,7 +163,8 @@ evaluatePostfix(Queue postfix, int* result) {
                 // Check for division by 0 error
                 if (!((strcmp(token, "/") == 0 || strcmp(token, "%") == 0) && operand2 == 0)) {
                     sprintf(ans, "%d", solve(operand1, operand2, token));
-                    pushStack(&operands, ans); 
+                    if (!isFullStack(&operands))
+                        pushStack(&operands, ans); 
                 } else
                     isEvaluated = false;
             }
@@ -170,7 +172,7 @@ evaluatePostfix(Queue postfix, int* result) {
     }
 
     // Set evaluated value if the evaluation is successful
-    if (isEvaluated)
+    if (isEvaluated && !isEmptyStack(&operands))
         *result = parseToInt(popStack(&operands));
 
     return isEvaluated;
