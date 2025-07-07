@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "calculator.h"
+#include "main.h"
 #include "conversion.h"
 #include "evaluation.h"
 #include "queue.h"

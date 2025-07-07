@@ -1,6 +1,6 @@
-#ifndef CALCULATOR_H
+#ifndef MAIN_H
 
-#define CALCULATOR_H
+#define MAIN_H
 
 #define MAX_CAPACITY 257
 #define MAX_OPERAND_LEN 15

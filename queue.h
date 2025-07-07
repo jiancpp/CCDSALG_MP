@@ -1,7 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "calculator.h"
+#include "main.h"
 
 typedef struct {
     String256 collection[256];

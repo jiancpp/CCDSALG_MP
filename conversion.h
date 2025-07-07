@@ -4,7 +4,7 @@
 // Declare functions here
 #include "stack.h"
 #include "queue.h"
-#include "calculator.h"
+#include "main.h"
 
 typedef struct
 {

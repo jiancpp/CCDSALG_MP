@@ -4,7 +4,7 @@
 #include "stack.h"
 #include "queue.h"
 #include "conversion.h"
-#include "calculator.h"
+#include "main.h"
 
 // Declare functions here   
 int         parseToInt           (String256 number);
