@@ -132,7 +132,7 @@ tokenizeInfix(char* infix, Queue* infixQueue, Operator storedOperators[]) {
     String256 temp;
 
     // Read infix until null operator is reached
-    while (infix[cur] != '\0') {
+    while (infix[cur] != '\0' && !isFullQueue(infixQueue)) {
         tempCur = 0;
 
         // Skip whitespaces
@@ -202,7 +202,8 @@ convertToPostfix (char* infix, Queue* postfix)
 
     tokenizeInfix(infix, &infixQueue, operators);
 
-    while (isEmptyQueue(&infixQueue) == false) {
+    while (isEmptyQueue(&infixQueue) == false &&
+           isFullStack(&operatorStack) == false) {
         // Store first element in queue to temp
         strcpy(temp, dequeue(&infixQueue));
 
@@ -216,7 +217,9 @@ convertToPostfix (char* infix, Queue* postfix)
             pushStack(&operatorStack, temp);
         } 
         else if (strcmp(temp, ")") == 0){
-            while (!isEmptyStack(&operatorStack) && strcmp(peekStack(&operatorStack), "(") != 0) {
+            while (!isEmptyStack(&operatorStack) && 
+                    strcmp(peekStack(&operatorStack), "(") != 0 &&
+                    !isFullQueue(postfix)) {
                 char* operator = popStack(&operatorStack);
                 enqueue(postfix, operator);
             }
@@ -238,7 +241,8 @@ convertToPostfix (char* infix, Queue* postfix)
     }
 
     // Flush operators in operator stack
-    while (!isEmptyStack(&operatorStack)) {
+    while (!isEmptyStack(&operatorStack) &&
+           !isFullQueue(postfix)) {
         char* operatorTemp = popStack(&operatorStack);
         if (strcmp(operatorTemp, "(") != 0) {
             enqueue(postfix, operatorTemp);
